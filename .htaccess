@@ -1,0 +1,43 @@
+# Rewrite DynDNS protocol "/nic/update?..." to "/index.php?..."
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+   RewriteEngine On
+   RewriteRule ^nic/update?(.*)$ /index.php$1
+</IfModule>
+
+SetEnv Europe/Berlin
+ServerSignature Off
+Options All -Indexes
+IndexOptions FancyIndexing SuppressDescription SuppressHTMLPreamble
+IndexIgnore header.html footer.html .htaccess
+
+ErrorDocument 403 "badauth"
+ErrorDocument 401 "badauth"
+ErrorDocument 404 "Error 404"
+ErrorDocument 500 "911"
+
+php_flag display_startup_errors off
+php_flag display_errors off
+php_flag html_errors off
+php_flag log_errors on
+php_value date.timezone "Europe/Berlin"
+
+<FilesMatch "\~$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^\.ht">
+   Require all denied
+</FilesMatch>
+
+<FilesMatch "\.log$">
+   Require all denied
+</FilesMatch>
+
+<FilesMatch "\.ip$">
+   Require all denied
+</FilesMatch>
+
+<FilesMatch "README.txt">
+   Require all denied
+</FilesMatch>
